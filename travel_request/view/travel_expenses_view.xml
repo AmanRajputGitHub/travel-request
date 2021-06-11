@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_travel_expenses_detail_tree" model="ir.ui.view">
+            <field name="name">travel.expenses.detail.tree</field>
+            <field name="model">travel.expenses.detail</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Expense Details">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_travel_expenses_detail_form" model="ir.ui.view">
+            <field name="name">travel.expenses.detail.form</field>
+            <field name="model">travel.expenses.detail</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Expense Details">
+                    <header>
+                        <button name="action_submit" states="draft" type="object" string="Submit"/>
+                        <button name="action_approve" states="submitted" type="object" string="Approve"/>
+                        <button name="action_reject" states="submitted" type="object" string="Reject"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approve,reject"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" string="Employee"/>
+                                <field name="currency_id"/>
+                                <field name="advance_taken"/>
+                                <field name="added_by"/>
+                                <field name="added_time"/>
+                                <field name="approval_send_to"/>
+                            </group>
+                            <group>
+                                <field name="travel_id"/>
+                                <field name="purpose_of_visit"/>
+                                <field name="period_from"/>
+                                <field name="period_to"/>
+                                <field name="project_id"/>
+                                <field name="modified_by_id" string="Modified By"/>
+                                <field name="modified_time" string="Modified time"/>
+                            </group>
+                        </group>
+                        <field name="expense_ids">
+                            <tree editable="bottom">
+                                <field name="head_id" string="Expense Type"/>
+                                <field name="date_of_expense" string="Date"/>
+                                <field name="bill_no"/>
+                                <field name="particulars"/>
+                                <field name="upload_receipt"/>
+                                <field name="approx_rate_amount"/>
+                                <field name="amount_over"/>
+                                <field name="remark"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_travel_expenses_detail_search" model="ir.ui.view">
+            <field name="name">travel.expenses.detail.search</field>
+            <field name="model">travel.expenses.detail</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search string="Expense Details">
+                    <field name="name" select="True"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="travel_expense_view_expenses_analysis_kanban" model="ir.ui.view">
+            <field name="name">travel.expenses.detail.kanban</field>
+            <field name="model">travel.expenses.detail</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile hr_expense" sample="1" js_class="hr_expense_kanban">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="advance_taken"/>
+                    <field name="period_from"/>
+                    <field name="period_to"/>
+                    <field name="state"/>
+                    <field name="currency_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <strong class="o_kanban_record_title">
+                                            <span>
+                                                <t t-esc="record.name.value"/>
+                                            </span>
+                                        </strong>
+                                        <strong class="o_kanban_record_subtitle float-right">
+                                            <span class="text-right">
+                                                <field name="advance_taken" widget="monetary"/>
+                                            </span>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="row mt8">
+                                    <div class="col-6 text-muted">
+                                        <span>
+                                            <t t-esc="record.employee_id.value"/>
+                                        </span>
+                                        <span>
+                                            <t t-esc="record.period_from.value"/>
+                                        </span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="float-right text-right">
+                                            <field name="state" widget="label_selection" options="{'classes': {'draft': 'default', 'sumbmitted': 'primary', 'rejected': 'danger', 'done': 'warning',
+                                            'approved': 'success'}}"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_open_travel_expenses_detail_view">
+            <field name="name">Travel Expense</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">travel.expenses.detail</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="view_travel_expenses_detail_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="act_open_travel_expenses_detail_view_form">
+            <field name="act_window_id" ref="act_open_travel_expenses_detail_view"/>
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_travel_expenses_detail_form"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="act_open_travel_expenses_detail_view_tree">
+            <field name="act_window_id" ref="act_open_travel_expenses_detail_view"/>
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_travel_expenses_detail_tree"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="act_open_travel_expenses_detail_view_kanban">
+            <field name="act_window_id" ref="act_open_travel_expenses_detail_view"/>
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="travel_expense_view_expenses_analysis_kanban"/>
+        </record>
+
+        <menuitem id="menu_travel_expenses_detail"
+                  parent="hr_expense.menu_hr_expense_root"
+                  sequence="1"
+                  name="Travel Expense"
+                  action="act_open_travel_expenses_detail_view"/>
+
+        <record id="inherit_hr_expense_view_form" model="ir.ui.view">
+            <field name="name">inherit.hr.expense.view.form</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='analytic_account_id']" position="attributes">
+                    <attribute name="string">Expense Category</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

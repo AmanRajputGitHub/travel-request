@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_travel_request_tree" model="ir.ui.view">
+            <field name="name">travel.request.tree</field>
+            <field name="model">travel.request</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Travel Request">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="travel_start_date"/>
+                    <field name="travel_end_date"/>
+                    <field name="travel_days"/>
+                    <field name="travel_type_id"/>
+                    <field name="department_id"/>
+                    <field name="added_by_id"/>
+                    <field name="approved_by_id"/>
+                    <field name="project_id"/>
+                    <field name="advance_amount"/>
+                    <field name="currency_id"/>
+                    <field name="purpose_of_visit"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_travel_request_form" model="ir.ui.view">
+            <field name="name">travel.request.form</field>
+            <field name="model">travel.request</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Travel Request">
+                    <header>
+                        <button name="action_submit" states="draft" type="object" string="Submit"/>
+                        <button name="action_approve" states="submitted" type="object" string="Approve"/>
+                        <button name="action_reject" states="submitted" type="object" string="Reject"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approve,reject"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group name="travel_request">
+                            <group name="travel_detail">
+                                <field name="employee_id"/>
+                                <field name="travel_start_date"/>
+                                <field name="travel_end_date"/>
+                                <field name="travel_days"/>
+                                <field name="travel_type_id"/>
+                                <field name="advance_amount"/>
+                                <field name="currency_id"/>
+                                <field name="purpose_of_visit"/>
+                            </group>
+                            <group name="other_detail">
+                                <field name="department_id"/>
+                                <field name="added_by_id"/>
+                                <field name="approved_by_id"/>
+                                <field name="project_id"/>
+                                <field name="reporting_manager_id"/>
+
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page name="proposed_travel_detail" string="Proposed Travel Details">
+                                <field name="proposed_travel_detail_ids">
+                                    <tree>
+                                        <field name="date_of_travel"/>
+                                        <field name="am_pm" string="AM/PM"/>
+                                        <field name="time"/>
+                                        <field name="travel_from"/>
+                                        <field name="travel_to"/>
+                                        <field name="travel_type"/>
+                                        <field name="admin_support_required"/>
+                                    </tree>
+                                    <form editable="bottom">
+                                        <group>
+                                            <group>
+                                                <field name="date_of_travel"/>
+                                                <field name="am_pm" string="AM/PM"/>
+                                                <field name="travel_from"/>
+                                                <field name="admin_support_required"/>
+                                            </group>
+                                            <group>
+                                                <field name="time" widget="float_time"/>
+                                                <field name="travel_type"/>
+                                                <field name="travel_to"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page name="logistic_requirement" string="Logistic Requirement">
+                                <field name="logistic_requirement_ids">
+                                    <tree>
+                                        <field name="head"/>
+                                        <field name="l_date"/>
+                                        <field name="city"/>
+                                        <field name="admin_support_required"/>
+                                        <field name="remark"/>
+                                    </tree>
+                                    <form editable="bottom">
+                                        <group>
+                                            <group>
+                                                <field name="head"/>
+                                                <field name="l_date"/>
+                                                <field name="admin_support_required"/>
+                                            </group>
+                                            <group>
+                                                <field name="city"/>
+                                                <field name="remark"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page name="travel_expense_est" string="Travel Expense Estimated">
+                                <field name="travel_expense_estimated_ids">
+                                    <tree>
+                                        <field name="head_id"/>
+                                        <field name="no_of_days"/>
+                                        <field name="approx_rate_amount"/>
+                                        <field name="approx_rate_gbp"/>
+                                        <field name="total_amount"/>
+                                    </tree>
+                                    <form editable="bottom">
+                                        <group>
+                                            <group>
+                                                <field name="head_id"/>
+                                                <field name="no_of_days"/>
+                                                <field name="total_amount"/>
+                                            </group>
+                                            <group>
+                                                <field name="approx_rate_amount"/>
+                                                <field name="approx_rate_gbp"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_travel_request_search" model="ir.ui.view">
+            <field name="name">travel.request.search</field>
+            <field name="model">travel.request</field>
+            <field name="type">search</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search string="Travel Request">
+                    <field name="travel_start_date"/>
+                    <field name="travel_end_date"/>
+                    <field name="travel_days"/>
+                    <field name="travel_type_id"/>
+                    <field name="department_id"/>
+                    <field name="added_by_id"/>
+                    <field name="approved_by_id"/>
+                    <field name="project_id"/>
+                </search>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="act_open_travel_request_view">
+            <field name="name">Travel Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">travel.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_travel_request_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="act_open_travel_request_view_form">
+            <field name="act_window_id" ref="act_open_travel_request_view"/>
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_travel_request_form"/>
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="act_open_travel_request_view_tree">
+            <field name="act_window_id" ref="act_open_travel_request_view"/>
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_travel_request_tree"/>
+        </record>
+
+        <menuitem id="menu_travel_root" name="Travel Request" />
+
+        <menuitem id="menu_main_travel_request"
+            parent="menu_travel_root"
+            name="Travel Request"
+            sequence="20"/>
+        
+        <menuitem id="menu_travel_request"
+            parent="menu_main_travel_request"
+            sequence="20"
+            action="act_open_travel_request_view"/>
+
+        <menuitem id="menu_travel_request_configuration"
+            parent="menu_travel_root"
+            name="Configurarion"
+            sequence="20"/>
+
+        <record id="view_travel_type_tree" model="ir.ui.view">
+            <field name="name">travel.type.tree</field>
+            <field name="model">travel.type</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+            <tree string="Travel Type">
+                <field name="name"/>
+            </tree>
+            </field>
+        </record>
+        
+        <record id="view_travel_type_form" model="ir.ui.view">
+            <field name="name">travel.type.form</field>
+            <field name="model">travel.type</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Travel Type">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_travel_type_search" model="ir.ui.view">
+            <field name="name">travel.type.search</field>
+            <field name="model">travel.type</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+            <search string="Travel Type">
+                <field name="name" select="True"/>
+            </search>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="act_open_travel_type_view">
+            <field name="name">Travel Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">travel.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_travel_type_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="act_open_travel_type_view_form">
+            <field name="act_window_id" ref="act_open_travel_type_view"/>
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_travel_type_form"/>
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="act_open_travel_type_view_tree">
+            <field name="act_window_id" ref="act_open_travel_type_view"/>
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_travel_type_tree"/>
+        </record>
+        
+        <menuitem id="menu_travel_type"
+            parent="menu_travel_request_configuration"
+            sequence="20"
+            action="act_open_travel_type_view"/>
+
+        <record id="view_head_name_tree" model="ir.ui.view">
+            <field name="name">head.name.tree</field>
+            <field name="model">head.name</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Head">
+                    <field name="name"/>
+                    <field name="head_type"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_head_name_form" model="ir.ui.view">
+            <field name="name">head.name.form</field>
+            <field name="model">head.name</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Head">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                        <group>
+                            <field name="head_type"/>
+                        </group>
+                    </sheet>
+                    <field name="name" select="1"/>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_head_name_search" model="ir.ui.view">
+            <field name="name">head.name.search</field>
+            <field name="model">head.name</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search string="Head">
+                    <field name="name" select="True"/>
+                </search>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="act_open_head_name_view">
+            <field name="name">Head</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">head.name</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_head_name_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="act_open_head_name_view_form">
+            <field name="act_window_id" ref="act_open_head_name_view"/>
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_head_name_form"/>
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="act_open_head_name_view_tree">
+            <field name="act_window_id" ref="act_open_head_name_view"/>
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_head_name_tree"/>
+        </record>
+        
+        <menuitem id="menu_head_name"
+            parent="menu_travel_request_configuration"
+            sequence="20"
+            action="act_open_head_name_view"/>
+    </data>
+</odoo>

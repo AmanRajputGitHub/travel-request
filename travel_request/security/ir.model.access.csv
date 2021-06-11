@@ -1,0 +1,8 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_travel_request,access_travel_request,model_travel_request,base.group_user,1,1,1,1
+access_proposed_travel_detail,access_proposed_travel_detail,model_proposed_travel_detail,base.group_user,1,1,1,1
+access_logistic_requirement,access_logistic_requirement,model_logistic_requirement,base.group_user,1,1,1,1
+access_travel_expense_estimated,access_travel_expense_estimated,model_travel_expense_estimated,base.group_user,1,1,1,1
+access_travel_type,access_travel_type,model_travel_type,base.group_user,1,1,1,1
+access_head_name,access_head_name,model_head_name,base.group_user,1,1,1,1
+access_travel_expenses_detail,access_travel_expenses_detail,model_travel_expenses_detail,base.group_user,1,1,1,1
